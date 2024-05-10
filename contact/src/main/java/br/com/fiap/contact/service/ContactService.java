@@ -1,7 +1,10 @@
 package br.com.fiap.contact.service;
 
+import br.com.fiap.contact.dto.ContactExhibitionDto;
+import br.com.fiap.contact.dto.ContactRegisterDto;
 import br.com.fiap.contact.model.Contact;
 import br.com.fiap.contact.repository.ContactRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +17,17 @@ public class ContactService {
     @Autowired
     private ContactRepository contactRepository;
 
-    public Contact record(Contact contact){
-        return contactRepository.save(contact);
+    public ContactExhibitionDto recordData(ContactRegisterDto contactRegisterDto){
+        Contact contact = new Contact();
+        BeanUtils.copyProperties(contactRegisterDto, contact);
+        return new ContactExhibitionDto(contactRepository.save(contact));
     }
 
-    public Contact searchById(Long id){
+    public ContactExhibitionDto searchById(Long id){
         Optional<Contact> contactOptional = contactRepository.findById(id);
 
         if(contactOptional.isPresent()){
-            return contactOptional.get();
+            return new ContactExhibitionDto(contactOptional.get());
         }else{
             throw new RuntimeException("Contato não encontrado");
         }
@@ -56,10 +61,10 @@ public class ContactService {
         }
     }
 
-    public Contact searchByName(String name){
+    public ContactExhibitionDto searchByName(String name){
         Optional<Contact> contactOptional = contactRepository.findByName(name);
         if (contactOptional.isPresent()){
-            return contactOptional.get();
+            return new ContactExhibitionDto(contactOptional.get());
         }else{
             throw new RuntimeException("Contato não encontrado");
         }

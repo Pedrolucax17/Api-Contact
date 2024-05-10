@@ -20,6 +20,7 @@ public class Contact {
     private Long id;
     private String name;
     private String email;
+    private String password;
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
@@ -47,6 +48,14 @@ public class Contact {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public LocalDate getBirthDate() {
         return birthDate;
     }
@@ -60,11 +69,11 @@ public class Contact {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Contact contact = (Contact) o;
-        return Objects.equals(id, contact.id) && Objects.equals(name, contact.name) && Objects.equals(email, contact.email) && Objects.equals(birthDate, contact.birthDate);
+        return Objects.equals(id, contact.id) && Objects.equals(name, contact.name) && Objects.equals(email, contact.email) && Objects.equals(password, contact.password) && Objects.equals(birthDate, contact.birthDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, birthDate);
+        return Objects.hash(id, name, email, password, birthDate);
     }
 }

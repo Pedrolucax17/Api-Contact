@@ -1,5 +1,7 @@
 package br.com.fiap.contact.controller;
 
+import br.com.fiap.contact.dto.ContactExhibitionDto;
+import br.com.fiap.contact.dto.ContactRegisterDto;
 import br.com.fiap.contact.model.Contact;
 import br.com.fiap.contact.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,28 +19,38 @@ public class ContactController {
 
     @PostMapping("/contacts")
     @ResponseStatus(HttpStatus.CREATED)
-    public Contact record(@RequestBody Contact contact){
-        return service.record(contact);
+    public ContactExhibitionDto record(@RequestBody ContactRegisterDto contact){
+        return service.recordData(contact);
     }
+
+    @GetMapping("/contacts/id/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ContactExhibitionDto searchById(@PathVariable Long id){
+        return service.searchById(id);
+    }
+
     @GetMapping("/contacts")
     @ResponseStatus(HttpStatus.OK)
     public List<Contact> listAllContacts(){
         return service.listAllContacts();
     }
+
     @DeleteMapping("/contacts/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteContact(@PathVariable Long id){
         service.deleteContactsById(id);
     }
+
     @PutMapping("/contacts")
     @ResponseStatus(HttpStatus.OK)
     public Contact updateContact(@RequestBody Contact contact){
         return service.update(contact);
     }
 
-    @GetMapping("/contacts/{name}")
+
+    @GetMapping("/contacts/name/{name}")
     @ResponseStatus(HttpStatus.OK)
-    public Contact searchByName(@PathVariable String name){
+    public ContactExhibitionDto searchByName(@PathVariable String name){
         return service.searchByName(name);
     }
 
