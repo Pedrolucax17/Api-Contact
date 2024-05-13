@@ -4,6 +4,7 @@ import br.com.fiap.contact.dto.ContactExhibitionDto;
 import br.com.fiap.contact.dto.ContactRegisterDto;
 import br.com.fiap.contact.model.Contact;
 import br.com.fiap.contact.service.ContactService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class ContactController {
 
     @PostMapping("/contacts")
     @ResponseStatus(HttpStatus.CREATED)
-    public ContactExhibitionDto record(@RequestBody ContactRegisterDto contact){
+    public ContactExhibitionDto record(@RequestBody @Valid ContactRegisterDto contact){
         return service.recordData(contact);
     }
 

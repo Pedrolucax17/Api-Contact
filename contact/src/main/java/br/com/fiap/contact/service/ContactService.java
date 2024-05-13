@@ -2,6 +2,7 @@ package br.com.fiap.contact.service;
 
 import br.com.fiap.contact.dto.ContactExhibitionDto;
 import br.com.fiap.contact.dto.ContactRegisterDto;
+import br.com.fiap.contact.exception.UserCannotFindException;
 import br.com.fiap.contact.model.Contact;
 import br.com.fiap.contact.repository.ContactRepository;
 import org.springframework.beans.BeanUtils;
@@ -29,7 +30,7 @@ public class ContactService {
         if(contactOptional.isPresent()){
             return new ContactExhibitionDto(contactOptional.get());
         }else{
-            throw new RuntimeException("Contato não encontrado");
+            throw new UserCannotFindException("Contato não encontrado");
         }
     }
 
