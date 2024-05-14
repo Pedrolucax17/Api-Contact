@@ -48,9 +48,7 @@ public class ContactService {
         }
     }
 
-    public List<Contact> showBirthdays(LocalDate initialDate, LocalDate finalDate){
-        return contactRepository.findByBirthDateBetween(initialDate, finalDate);
-    }
+
 
     public Contact update(Contact contact){
         Optional<Contact> contactOptional = contactRepository.findById(contact.getId());
@@ -63,7 +61,7 @@ public class ContactService {
     }
 
     public ContactExhibitionDto searchByName(String name){
-        Optional<Contact> contactOptional = contactRepository.findByName(name);
+        Optional<Contact> contactOptional = contactRepository.searchByName(name);
         if (contactOptional.isPresent()){
             return new ContactExhibitionDto(contactOptional.get());
         }else{

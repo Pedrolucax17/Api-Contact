@@ -55,11 +55,11 @@ public class ContactController {
         return service.searchByName(name);
     }
 
-    @GetMapping("/contacts/{initialDate}/{finalDate}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Contact> showBirthdays(
-            @PathVariable LocalDate initialDate, @PathVariable LocalDate finalDate
-    ){
-        return service.showBirthdays(initialDate, finalDate);
-    }
+//    @GetMapping("/contacts/{initialDate}/{finalDate}")
+//    @ResponseStatus(HttpStatus.OK)
+//    public List<Contact> showBirthdays(
+//            @PathVariable LocalDate initialDate, @PathVariable LocalDate finalDate
+//    ){
+//        return service.showBirthdays(initialDate, finalDate);
+//    }
 }
