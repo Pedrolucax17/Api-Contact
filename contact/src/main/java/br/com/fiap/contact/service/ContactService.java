@@ -8,6 +8,8 @@ import br.com.fiap.contact.repository.ContactRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -35,8 +37,10 @@ public class ContactService {
         }
     }
 
-    public List<Contact> listAllContacts(){
-        return contactRepository.findAll();
+    public Page<ContactExhibitionDto> listAllContacts(Pageable pageable){
+        return contactRepository
+                .findAll(pageable)
+                .map(ContactExhibitionDto::new);
     }
 
     public void deleteContactsById(Long id){
