@@ -6,6 +6,7 @@ import br.com.fiap.contact.model.Contact;
 import br.com.fiap.contact.service.ContactService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,11 +56,16 @@ public class ContactController {
         return service.searchByName(name);
     }
 
-//    @GetMapping("/contacts/{initialDate}/{finalDate}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public List<Contact> showBirthdays(
-//            @PathVariable LocalDate initialDate, @PathVariable LocalDate finalDate
-//    ){
-//        return service.showBirthdays(initialDate, finalDate);
-//    }
+    @GetMapping(value = "/contacts", params = {"initialDate", "finalDate"})
+    public List<ContactExhibitionDto> listBirthdayPersonForPeriod(
+            @RequestParam LocalDate initialDate,
+            @RequestParam LocalDate finalDate
+    ){
+        return service.listBirthdayPersonForPeriod(initialDate, finalDate);
+    }
+
+    @GetMapping(value = "/contacts", params = "email")
+    public ContactExhibitionDto findContactByEmail(@RequestParam String email){
+        return service.findContactByEmail(email);
+    }
 }

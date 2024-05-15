@@ -7,6 +7,7 @@ import br.com.fiap.contact.model.Contact;
 import br.com.fiap.contact.repository.ContactRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -66,6 +67,23 @@ public class ContactService {
             return new ContactExhibitionDto(contactOptional.get());
         }else{
             throw new RuntimeException("Contato não encontrado");
+        }
+    }
+
+    public List<ContactExhibitionDto> listBirthdayPersonForPeriod(LocalDate initialDate, LocalDate finalDate){
+        return contactRepository
+                .listBirthdayPersonForPeriod(initialDate, finalDate)
+                .stream()
+                .map(ContactExhibitionDto::new)
+                .toList();
+    }
+
+    public ContactExhibitionDto findContactByEmail(String email){
+        Optional<Contact> contactOptional = contactRepository.findByEmail(email);
+        if(contactOptional.isPresent()){
+            return new ContactExhibitionDto(contactOptional.get());
+        }else{
+            throw new UserCannotFindException("Contato não encontrado");
         }
     }
 }
