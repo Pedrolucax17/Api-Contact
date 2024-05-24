@@ -1,5 +1,6 @@
 package br.com.fiap.contact.dto;
 
+import br.com.fiap.contact.model.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -16,6 +17,9 @@ public record UserRegisterDto(
 
         @NotBlank(message = "A senha é obrigatória")
         @Size(min = 6, max = 20, message = "A senha deve conter no mínimo 6 e máximo 20 caracteres")
-        String password
+        String password,
+
+        UserRole role
+
 ) {
 }

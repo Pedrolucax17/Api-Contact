@@ -9,18 +9,26 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
+@Service
 public class UserService {
 
     @Autowired
     private UserRepository repository;
 
     public UserExhibitionDto save(UserRegisterDto userRegisterDto){
+
+        String encryptedPassword = new BCryptPasswordEncoder().encode(userRegisterDto.password());
+
         UserModel user = new UserModel();
         BeanUtils.copyProperties(userRegisterDto, user);
-        return new UserExhibitionDto(repository.save(user));
+        user.setPassword(encryptedPassword);
+
+        UserModel userSave = repository.save(user);
+        return new UserExhibitionDto(userSave);
     }
 
     public UserExhibitionDto searchById(Long id){
