@@ -1,5 +1,6 @@
 package br.com.fiap.contact.controller;
 
+import br.com.fiap.contact.dto.LoginDto;
 import br.com.fiap.contact.dto.UserExhibitionDto;
 import br.com.fiap.contact.dto.UserRegisterDto;
 import br.com.fiap.contact.service.UserService;
@@ -24,14 +25,15 @@ public class AuthController {
     private UserService service;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid UserRegisterDto userRegisterDto){
+    public ResponseEntity login(@RequestBody @Valid LoginDto loginDto){
         //Representa o usuario
-        UsernamePasswordAuthenticationToken userNamePassword =
+
+        UsernamePasswordAuthenticationToken usernamePassword =
                 new UsernamePasswordAuthenticationToken(
-                        userRegisterDto.email(),
-                        userRegisterDto.password()
+                        loginDto.email(),
+                        loginDto.password()
                 );
-        Authentication authentication = authenticationManager.authenticate(userNamePassword);
+        Authentication authentication = authenticationManager.authenticate(usernamePassword);
 
         return ResponseEntity.ok().build();
     }
