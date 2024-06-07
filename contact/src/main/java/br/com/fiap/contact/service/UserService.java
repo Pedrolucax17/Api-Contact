@@ -3,7 +3,7 @@ package br.com.fiap.contact.service;
 import br.com.fiap.contact.dto.UserExhibitionDto;
 import br.com.fiap.contact.dto.UserRegisterDto;
 import br.com.fiap.contact.exception.UserCannotFindException;
-import br.com.fiap.contact.model.UserModel;
+import br.com.fiap.contact.model.User;
 import br.com.fiap.contact.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +23,16 @@ public class UserService {
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(userRegisterDto.password());
 
-        UserModel user = new UserModel();
+        User user = new User();
         BeanUtils.copyProperties(userRegisterDto, user);
         user.setPassword(encryptedPassword);
 
-        UserModel userSave = repository.save(user);
+        User userSave = repository.save(user);
         return new UserExhibitionDto(userSave);
     }
 
     public UserExhibitionDto searchById(Long id){
-        Optional<UserModel> userModelOptional = repository.findById(id);
+        Optional<User> userModelOptional = repository.findById(id);
         if (userModelOptional.isPresent()){
             return new UserExhibitionDto(userModelOptional.get());
         }else{
@@ -44,8 +44,8 @@ public class UserService {
         return repository.findAll(pegeable).map(UserExhibitionDto::new);
     }
 
-    public UserModel update(UserModel userModel){
-        Optional<UserModel> userModelOptional = repository.findById(userModel.getUserId());
+    public User update(User userModel){
+        Optional<User> userModelOptional = repository.findById(userModel.getUserId());
 
         if (userModelOptional.isPresent()){
             return repository.save(userModel);
@@ -55,7 +55,7 @@ public class UserService {
     }
 
     public void deleteUserById(Long id){
-        Optional<UserModel> userModelOptional = repository.findById(id);
+        Optional<User> userModelOptional = repository.findById(id);
         if (userModelOptional.isPresent()){
             repository.delete(userModelOptional.get());
         }else{

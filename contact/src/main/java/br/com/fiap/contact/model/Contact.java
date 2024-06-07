@@ -1,5 +1,6 @@
 package br.com.fiap.contact.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -22,6 +23,7 @@ public class Contact {
     private String email;
     private String password;
     @Column(name = "birth_date")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
 
     public Long getId() {

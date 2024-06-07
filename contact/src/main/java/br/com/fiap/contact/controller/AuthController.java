@@ -1,12 +1,14 @@
 package br.com.fiap.contact.controller;
 
+import br.com.fiap.contact.config.security.TokenService;
 import br.com.fiap.contact.dto.LoginDto;
+import br.com.fiap.contact.dto.TokenDto;
 import br.com.fiap.contact.dto.UserExhibitionDto;
 import br.com.fiap.contact.dto.UserRegisterDto;
+import br.com.fiap.contact.model.User;
 import br.com.fiap.contact.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,18 +26,27 @@ public class AuthController {
     @Autowired
     private UserService service;
 
-    @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid LoginDto loginDto){
-        //Representa o usuario
+    @Autowired
+    private TokenService tokenService;
 
+    @PostMapping("/login")
+    public ResponseEntity login(
+            @RequestBody
+            @Valid
+            LoginDto loginDto
+    ){
         UsernamePasswordAuthenticationToken usernamePassword =
                 new UsernamePasswordAuthenticationToken(
                         loginDto.email(),
-                        loginDto.password()
-                );
-        Authentication authentication = authenticationManager.authenticate(usernamePassword);
+                        loginDto.password());
 
-        return ResponseEntity.ok().build();
+        Authentication auth = authenticationManager.authenticate(usernamePassword);
+
+        String token = tokenService.generateToken(
+                (User) auth.getPrincipal()
+        );
+
+        return ResponseEntity.ok(new TokenDto(token));
     }
 
     @PostMapping("/register")

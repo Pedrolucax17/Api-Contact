@@ -1,6 +1,6 @@
 package br.com.fiap.contact.config.security;
 
-import br.com.fiap.contact.model.UserModel;
+import br.com.fiap.contact.model.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
@@ -18,7 +17,7 @@ public class TokenService {
     @Value("${my.secret.key}")
     private String secretWord;
 
-    public String generateToken(UserModel user){
+    public String generateToken(User user){
         try{
             Algorithm algorithm = Algorithm.HMAC256(secretWord);
             String token = JWT

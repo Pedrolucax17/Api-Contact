@@ -2,7 +2,7 @@ package br.com.fiap.contact.controller;
 
 import br.com.fiap.contact.dto.UserExhibitionDto;
 import br.com.fiap.contact.dto.UserRegisterDto;
-import br.com.fiap.contact.model.UserModel;
+import br.com.fiap.contact.model.User;
 import br.com.fiap.contact.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +43,7 @@ public class UserController {
 
     @PutMapping("/users")
     @ResponseStatus(HttpStatus.OK)
-    public UserModel update(@RequestBody UserModel user){
+    public User update(@RequestBody User user){
         return userService.update(user);
     }
 

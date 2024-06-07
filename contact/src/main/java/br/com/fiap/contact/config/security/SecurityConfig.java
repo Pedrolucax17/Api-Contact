@@ -13,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -25,19 +24,20 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(
             HttpSecurity httpSecurity
     )throws Exception{
-        return httpSecurity
-                .csrf(csrf -> csrf.disable())
+        return httpSecurity.csrf(csrf -> csrf.disable())
                 .sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/contacts").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/contacts")
-                        .hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/contacts").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.POST, "/api/contacts").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/contacts").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/contacts").hasRole("ADMIN")
                         .anyRequest()
-                        .authenticated())
+                        .authenticated()
+                )
                 .addFilterBefore(
                         validateToken,
                         UsernamePasswordAuthenticationFilter.class

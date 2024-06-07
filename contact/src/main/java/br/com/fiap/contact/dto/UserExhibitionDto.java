@@ -1,7 +1,7 @@
 package br.com.fiap.contact.dto;
 
 
-import br.com.fiap.contact.model.UserModel;
+import br.com.fiap.contact.model.User;
 import br.com.fiap.contact.model.UserRole;
 
 public record UserExhibitionDto(
@@ -10,7 +10,7 @@ public record UserExhibitionDto(
         String email,
         UserRole role
 ) {
-    public UserExhibitionDto(UserModel user) {
+    public UserExhibitionDto(User user) {
         this(
                 user.getUserId(),
                 user.getName(),
